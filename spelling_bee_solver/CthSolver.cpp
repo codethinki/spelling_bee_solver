@@ -1,14 +1,14 @@
 #include "CthSolver.hpp"
 
-#include <fstream>
+#include <array>
 #include <filesystem>
+#include <fstream>
+#include <iostream>
+#include <numeric>
 #include <omp.h>
 #include <span>
 #include <unordered_map>
 #include <vector>
-#include <array>
-#include <iostream>
-#include <numeric>
 
 
 namespace cth {

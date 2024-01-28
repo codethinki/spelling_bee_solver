@@ -16,21 +16,27 @@
     <Filter Include="Resource Files\wordlists">
       <UniqueIdentifier>{6c6d0aa1-0b24-41df-bbad-4b851f22d6fe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\solver">
+      <UniqueIdentifier>{612cb2d8-5bf2-4cbc-8b8c-125b80d8661c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\solver">
+      <UniqueIdentifier>{2985d947-879e-4ede-9c89-732749fd3236}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CthSolver.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="cth_solver.cpp">
+      <Filter>Source Files\solver</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CthSolver.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="cth_solver.hpp">
+      <Filter>Header Files\solver</Filter>
     </ClInclude>
-    <ClInclude Include="CthVariables.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="cth_variables.hpp">
+      <Filter>Header Files\solver</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

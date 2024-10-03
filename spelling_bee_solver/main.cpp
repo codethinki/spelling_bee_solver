@@ -6,21 +6,21 @@
 #include "cth_solver.hpp"
 #include "cth_variables.hpp"
 
-#include "cth/cth_windows.hpp"
 
-#include "cth/cth_log.hpp"
+#include <filesystem>
+
 
 namespace cth {
 using namespace std;
 
 char getWordlistDelimiter() {
-    msgln("please input the delimiter of " + string(WORDLIST_PATH) + " [\"none\" -> \'\\n\']", log::LOG_COLOR_HINT);
+    std::println("please input the delimiter of {} [\"none\" -> \'\\n\']", WORDLIST_PATH);
 
 
     string input;
     cin >> input;
     while(input.size() > 1 && input != "none") {
-        log::msg("invalid, only single char delimiters allowed\ntry again: ", log::LOG_COLOR_ERROR);
+        std::println("invalid, only single char delimiters allowed\ntry again: ");
         cin >> input;
     }
 
@@ -32,21 +32,21 @@ char getWordlistDelimiter() {
 
 void prepare() {
 
-    msgln("no prepared-wordlist detected", log::LOG_COLOR_WARN);
+    std::println("no prepared-wordlist detected");
 
     if(!filesystem::exists(WORDLIST_PATH.data())) {
-        msgln("no wordlist detected, please place a wordlist at " + string(WORDLIST_PATH), log::LOG_COLOR_ERROR);
+        std::println("no wordlist detected, please place a wordlist at {}", WORDLIST_PATH);
         system("pause");
         exit(EXIT_FAILURE);
     }
     const char delimiter = getWordlistDelimiter();
 
 
-    msgln("\n\npreparing...", log::LOG_COLOR_PASSED);
+    std::println("\n\npreparing...");
     const auto start = std::chrono::high_resolution_clock::now();
     prepareWordList(delimiter);
     const auto end = std::chrono::high_resolution_clock::now();
-    msgln("prepared in " + to_string(std::chrono::duration<float>(end - start).count()) + "\n\n", log::LOG_COLOR_PASSED);
+    std::println("prepared in {}\n\n", std::chrono::duration<float>(end - start).count());
 }
 
 
@@ -54,7 +54,7 @@ char getChar(const string_view excluded) {
     char c = 0;
 
     while(c < 'a' || c > 'z') {
-        if(c != 0) log::msgln("invalid, try again: ", log::LOG_COLOR_ERROR);
+        if(c != 0) std::println("invalid, try again: ");
 
         string input;
         cin >> input;
@@ -69,13 +69,13 @@ char getChar(const string_view excluded) {
 
 string getValidChars() {
     string validChars{};
-    log::msg("input the gold char: ", log::LOG_COLOR_HINT);
+    std::println("input the gold char: ");
     validChars += getChar("");
 
     cout << "\n\n";
 
     for(int i = 0; i < 6; i++) {
-        log::msg("[current: \"" + validChars + "\"] input a character: ", log::LOG_COLOR_HINT);
+        std::println("[current: \" {} \"] input a character: ", validChars);
         validChars += getChar(validChars);
     }
 
@@ -95,14 +95,14 @@ int main() {
 
     cout << "\n\n";
 
-    msgln("solving...", cth::log::LOG_COLOR_PASSED);
+    std::println("solving...");
     auto solutions = cth::solve(validChars);
 
     ranges::for_each(solutions, [](const auto& solution) { std::println("{0}, [score: {1}]", solution.first, (int) solution.second); });
 
-    msgln("\n\nfound " + to_string(solutions.size()) + " solutions", cth::log::LOG_COLOR_PASSED);
+    std::println("\n\nfound {} solutions", solutions.size());
 
-    msgln("\n\n[input any value to leave]", cth::log::LOG_COLOR_HINT);
+    std::println("\n\n[input any value to leave]");
     string x;
     cin >> x;
 

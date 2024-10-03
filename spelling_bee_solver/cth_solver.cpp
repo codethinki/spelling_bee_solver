@@ -2,7 +2,6 @@
 
 #include "cth_variables.hpp"
 
-#include "cth/cth_log.hpp"
 
 #include <algorithm>
 #include <array>
@@ -22,7 +21,6 @@ using namespace std;
 
 vector<pair<string, char>> solve(const string_view valid_chars) {
     ifstream file(PREPARED_WORDLIST_PATH.data());
-    CTH_STABLE_ASSERT(file.is_open() && "solve: unable to open file");
 
     vector<pair<string, char>> solutions{};
 
@@ -40,7 +38,7 @@ vector<pair<string, char>> solve(const string_view valid_chars) {
         solutions.emplace_back(word, score);
     }
 
-
+    std::ranges::reverse(solutions);
     return solutions;
 }
 
@@ -51,7 +49,6 @@ vector<pair<string, char>> solve(const string_view valid_chars) {
 
 [[nodiscard]] vector<pair<string, char>> loadWordlistChunk(const int64_t byte_size, const int64_t offset, const char delimiter) {
     ifstream file(WORDLIST_PATH.data());
-    CTH_STABLE_ASSERT(file.is_open() && "loadWordlistChunk: failed to open file");
     const streampos end = offset + byte_size;
 
     if(offset != 0) {
@@ -110,14 +107,11 @@ void prepareWordList(const char delimiter) {
         return a.second > b.second || (a.second == b.second && a.first < b.first);
     });
 
-    log::msgln("found " + to_string(tempWordList.size()) + " valid words", log::LOG_COLOR_HINT);
+    std::println("found {} valid words", tempWordList.size());
 
     ofstream file(PREPARED_WORDLIST_PATH.data(), ios::ate);
-    CTH_STABLE_ASSERT(file.is_open() && "prepareWordList: failed to open file");
 
     ranges::for_each(tempWordList, [&file](const auto& pair) { file << pair.first << WORDLIST_DELIMITER << pair.second; });
-
-
 
     file.close();
 }
